@@ -1,0 +1,54 @@
+version: '3.8'
+services:
+  node:
+    image: node:latest
+    container_name: nodeapp
+    restart: always
+    command: yarn start
+    env_file:
+      - .env
+    depends_on:
+      - mongo
+    build: .
+    ports:
+      - "3000:3000"
+    networks:
+      - my_network
+    working_dir: /home/app
+    volumes:
+      - .:/home/app
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - my_network
+    volumes:
+      - mongo-data:/data/db
+    command: [--auth]
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongoadmin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
+      - MONGO_INITDB_DATABASE=test
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    depends_on:
+      - mongo
+    ports:
+      - 8081:8081
+    networks:
+      - my_network
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: mongoadmin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: secret
+      ME_CONFIG_MONGODB_URL: mongodb://mongoadmin:secret@mongo:27017/
+
+networks:
+  my_network:
+
+volumes:
+  mongo-data:
