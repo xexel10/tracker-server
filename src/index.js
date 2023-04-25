@@ -34,7 +34,7 @@ const serverPort = process.env.SERVER_PORT;
 //const mongoUri = `mongodb://mongoadmin:secret@localhost:27017/`; //Local VS CODE
 const mongoUri = `mongodb://mongoadmin:secret@mongo-database:27017`;
 
-if (!mongoUri) {
+if (!mongoUri) { 
   throw new Error(
     `MongoURI was not supplied.  Make sure you watch the video on setting up Mongo DB!`
   );
