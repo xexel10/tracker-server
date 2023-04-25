@@ -8,7 +8,7 @@ services:
     env_file:
       - .env
     depends_on:
-      - mongo
+      - mongo-database
     build: .
     ports:
       - "3000:3000"
@@ -18,7 +18,7 @@ services:
     volumes:
       - .:/home/app
 
-  mongo:
+  mongo-database:
     image: mongo:latest
     container_name: mongodb
     ports:
@@ -37,7 +37,7 @@ services:
     image: mongo-express
     restart: always
     depends_on:
-      - mongo
+      - mongo-database
     ports:
       - 8081:8081
     networks:

@@ -6,8 +6,18 @@ const bodyParser = require("body-parser");
 const authRoutes = require("./routes/authRoutes");
 const trackRoutes = require("./routes/trackRoutes");
 const requireAuth = require("./middlewares/requireAuth");
+const cors = require('cors');
 
 const app = express();
+
+// 👇️ configure CORS
+app.use(cors());
+app.use((_req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', '*');
+
+  next();
+});
 
 app.use(bodyParser.json());
 app.use(authRoutes);
@@ -21,7 +31,8 @@ const serverPort = process.env.SERVER_PORT;
 
 //const mongoUri = 'mongodb+srv://admin:ctidpf@cluster0.erjkkud.mongodb.net/test'; //No Cloud MONGODB
 //const mongoUri = 'mongodb://mongoadmin:secret@mongo:27017/'; //Docker
-const mongoUri = `mongodb://mongoadmin:secret@localhost:27017/`; //Local VS CODE
+//const mongoUri = `mongodb://mongoadmin:secret@localhost:27017/`; //Local VS CODE
+const mongoUri = `mongodb://mongoadmin:secret@mongo-database:27017`;
 
 if (!mongoUri) {
   throw new Error(

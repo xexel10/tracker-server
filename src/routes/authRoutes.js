@@ -20,6 +20,7 @@ router.post('/signup', async (req, res) => {
 });
 
 router.post('/signin', async (req, res) => {
+  console.log('teste');
   const { email, password } = req.body;
 
   if (!email || !password) {
@@ -38,6 +39,11 @@ router.post('/signin', async (req, res) => {
   } catch (err) {
     return res.status(422).send({ error: 'Invalid password or email' });
   }
+});
+
+router.get('/teste', async (req, res) => {
+  console.log('teste2');
+  
 });
 
 module.exports = router;
